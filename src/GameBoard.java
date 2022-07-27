@@ -15,7 +15,7 @@ public class GameBoard {
 
     public void initialize(LevelManager levelManager){
         this.levelManager = levelManager;
-        this.tiles = levelManager.getTiles();
+        this.tiles = levelManager.loadLevel();
         boardWidth = levelManager.getCurrLevelWidth();
     }
 
@@ -68,8 +68,10 @@ public class GameBoard {
 
     public void advanceLevel(){
         levelManager.advanceLevel();
-        this.tiles = levelManager.getTiles();
-        this.boardWidth = levelManager.getCurrLevelWidth();
+        if (!levelManager.isWon()){
+            this.tiles = levelManager.loadLevel();
+            this.boardWidth = levelManager.getCurrLevelWidth();
+        }
     }
 
 //    public void switchPosition(Tile tile1, Tile tile2, int shift) {

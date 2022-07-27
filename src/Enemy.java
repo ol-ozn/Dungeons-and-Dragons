@@ -21,7 +21,7 @@ public abstract class Enemy extends Unit {
     }
 
     public void onDeath() {
-        dcb.onDeath();
+        dcb.onDeath(); // remove from board
         setHealthAmount(0);
         this.send(new Message(this.getName() + " died"));
     }
@@ -51,7 +51,7 @@ public abstract class Enemy extends Unit {
     }
 
     public void acceptEXP(Player player) {
-        player.setExperience(player.getExperience() + this.getExperience_value());
+        player.setExperience(player.getExperience() + this.getExperience_value()); // give the player the exp value
         player.messageCallback.send(new Message(String.format(player.getName() + " gained %d experience", this.getExperience_value() )));
 
     }

@@ -9,34 +9,34 @@ public class LevelManager {
     private int currLevel;
 
     private int currLevelWidth;
-    private List<Tile> tiles;
+
     private TileFactory tf;
-    private static final String path = "C:\\Users\\yonat\\IdeaProjects\\Dungeons and Dragons\\levels_dir"; //TODO: CHANGE THIS PATH TO URS BERFORE RUNNING
+//    private static final String path = "C:\\Users\\yonat\\IdeaProjects\\Dungeons and Dragons\\levels_dir";
 //    private static final String path = "D:\\POOPass3\\new\\levels_dir";
+    private final String path;
     private Player selected;
     private List<Enemy> enemies;
 
     private boolean won = false;
 
-    public LevelManager(TileFactory tileFactory) {
+    public LevelManager(TileFactory tileFactory, String path) {
         currLevel = 1;
         this.tf = tileFactory;
         enemies = new ArrayList<>();
         selected = tileFactory.getSelected();
-        loadLevel(currLevel);
+        this.path = path;
 
     }
 
-    private void loadLevel(int currLevel) {
+    private List<Tile> loadLevel(int currLevel) {
         List<String> readLines = readAllLines(path + "\\level" + currLevel + ".txt");
         this.currLevelWidth = readLines.get(0).length();
-        this.tiles = convertReadLinesToTiles(readLines);
+        return convertReadLinesToTiles(readLines);
     }
 
     public void advanceLevel() {
         if(currLevel < 4) {
             currLevel++;
-            loadLevel(currLevel );
         }
         else
             won = true;
@@ -88,7 +88,6 @@ public class LevelManager {
             }
             y++;
         }
-        this.tiles = tiles;
         return tiles;
     }
 
@@ -103,9 +102,6 @@ public class LevelManager {
         return currLevelWidth;
     }
 
-    public List<Tile> getTiles() {
-        return tiles;
-    }
 
     public TileFactory getTf() {
         return tf;
@@ -117,5 +113,9 @@ public class LevelManager {
 
     public boolean isWon() {
         return won;
+    }
+
+    public List<Tile> loadLevel(){
+        return loadLevel(currLevel);
     }
 }
